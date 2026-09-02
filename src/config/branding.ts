@@ -7,14 +7,15 @@ export const branding = {
     height: 40,
   },
   colors: {
-    primary: "#ff6b2c",
+    brand: "#ff6b2c",
+    primary: "#c2410c",
     primaryForeground: "#ffffff",
-    secondary: "#111827",
+    secondary: "#0b0b10",
     secondaryForeground: "#ffffff",
     accent: "#fff1eb",
   },
   typography: {
-    sans: "Geist",
+    sans: "Inter",
     display: "Manrope",
   },
   visualStyle: {

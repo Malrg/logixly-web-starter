@@ -1,6 +1,7 @@
 export type ServiceIcon = "LayoutTemplate" | "ShoppingBag" | "Workflow" | "ShieldCheck";
 
 export type Service = {
+  slug: string;
   title: string;
   description: string;
   icon: ServiceIcon;
@@ -11,6 +12,7 @@ export type Service = {
 
 export const services: readonly Service[] = [
   {
+    slug: "web-corporativa",
     title: "Webs corporativas",
     description: "Una presencia digital sólida, rápida y diseñada para generar confianza desde el primer vistazo.",
     icon: "LayoutTemplate",
@@ -19,6 +21,7 @@ export const services: readonly Service[] = [
     highlights: ["Diseño responsive", "SEO técnico", "Edición sencilla"],
   },
   {
+    slug: "ecommerce",
     title: "E-commerce",
     description: "Tiendas online claras y fluidas que convierten el catálogo de tu negocio en una experiencia de compra.",
     icon: "ShoppingBag",
@@ -27,6 +30,7 @@ export const services: readonly Service[] = [
     highlights: ["Catálogo escalable", "Pagos seguros", "Analítica"],
   },
   {
+    slug: "automatizacion",
     title: "Automatización",
     description: "Conectamos formularios, procesos e IA para que tu equipo dedique tiempo a lo que realmente importa.",
     icon: "Workflow",
@@ -35,6 +39,7 @@ export const services: readonly Service[] = [
     highlights: ["Integraciones", "Agentes de IA", "Menos tareas manuales"],
   },
   {
+    slug: "ciberseguridad",
     title: "Ciberseguridad",
     description: "Buenas prácticas de seguridad integradas desde la arquitectura hasta la puesta en producción.",
     icon: "ShieldCheck",

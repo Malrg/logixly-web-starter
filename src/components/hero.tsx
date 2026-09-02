@@ -1,39 +1,130 @@
+"use client";
+
 import Link from "next/link";
-import { ArrowRight, CheckCircle2, ShieldCheck, Sparkles } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
+import { ArrowRight, Bot, Lock, ShieldCheck, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+const trustPoints = [
+  "Entregas en semanas, no meses",
+  "SEO técnico incluido",
+  "Seguridad desde el diseño",
+];
+
+const stackChips = [
+  { label: "Desarrollo web", icon: Sparkles },
+  { label: "Automatización IA", icon: Bot },
+  { label: "Ciberseguridad", icon: Lock },
+];
+
 export function Hero() {
+  const reduceMotion = useReducedMotion();
+  const up = (delay: number) =>
+    reduceMotion
+      ? {}
+      : {
+          initial: { opacity: 0, y: 22 },
+          animate: { opacity: 1, y: 0 },
+          transition: { duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] as const },
+        };
+
   return (
     <section className="relative overflow-hidden border-b border-border/60">
-      <div className="hero-grid absolute inset-0 -z-10 opacity-70" />
-      <div className="absolute -left-40 top-20 -z-10 size-96 rounded-full bg-primary/15 blur-3xl" />
-      <div className="container-shell grid min-h-[78vh] items-center gap-14 py-20 lg:grid-cols-[1.08fr_.92fr] lg:py-24">
+      {/* Technical backdrop: grid + glow orbs + drifting lines */}
+      <div className="bg-grid mask-fade-radial pointer-events-none absolute inset-0 -z-20 opacity-[0.55]" />
+      <div className="glow-orb pointer-events-none absolute -left-32 top-10 -z-10 size-96 bg-brand/20" />
+      <div className="glow-orb animate-pulse-slow pointer-events-none absolute right-0 top-40 -z-10 size-80 bg-brand/10" />
+      <svg
+        className="pointer-events-none absolute inset-0 -z-10 hidden h-full w-full opacity-40 lg:block"
+        aria-hidden="true"
+      >
+        <line x1="62%" y1="0" x2="98%" y2="55%" stroke="var(--border)" strokeWidth="1" />
+        <line x1="80%" y1="0" x2="45%" y2="100%" stroke="var(--border)" strokeWidth="1" />
+      </svg>
+
+      <div className="container-shell grid min-h-[82vh] items-center gap-14 py-20 lg:grid-cols-[1.08fr_.92fr] lg:py-24">
         <div>
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/8 px-3 py-1.5 text-sm font-medium text-primary"><Sparkles className="size-4" /> Diseño, tecnología y crecimiento</div>
-          <h1 className="max-w-4xl text-balance text-5xl font-semibold leading-[1.02] tracking-[-0.05em] sm:text-6xl lg:text-7xl">Webs que convierten una buena idea en un <span className="text-gradient">negocio visible.</span></h1>
-          <p className="mt-7 max-w-2xl text-pretty text-lg leading-8 text-muted-foreground sm:text-xl">Creamos experiencias digitales modernas, rápidas y preparadas para captar clientes. Una base profesional que se adapta a cualquier sector.</p>
-          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-            <Button asChild size="lg"><Link href="/contacto">Cuéntanos tu proyecto <ArrowRight className="size-4" /></Link></Button>
-            <Button asChild size="lg" variant="outline"><Link href="/proyectos">Ver proyectos</Link></Button>
-          </div>
-          <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm text-muted-foreground">
-            {['Responsive desde el inicio', 'SEO técnico incluido', 'Listo para Vercel'].map((item) => <span key={item} className="inline-flex items-center gap-2"><CheckCircle2 className="size-4 text-primary" />{item}</span>)}
-          </div>
+          <motion.div {...up(0)} className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/8 px-3 py-1.5 text-sm font-medium text-primary">
+            <Sparkles className="size-4" /> Diseño, tecnología y crecimiento
+          </motion.div>
+
+          <motion.h1
+            {...up(0.08)}
+            className="max-w-4xl text-balance text-5xl font-semibold leading-[1.03] tracking-[-0.04em] sm:text-6xl lg:text-[4.75rem]"
+          >
+            Transformamos negocios con{" "}
+            <span className="text-gradient">tecnología</span> que se nota desde el primer clic.
+          </motion.h1>
+
+          <motion.p {...up(0.16)} className="mt-7 max-w-2xl text-pretty text-lg leading-8 text-muted-foreground sm:text-xl">
+            Diseñamos y desarrollamos webs rápidas, automatizamos procesos con IA y protegemos tu
+            operación con ciberseguridad integrada desde el primer commit. Una sola base tecnológica
+            para crecer sin fricción.
+          </motion.p>
+
+          <motion.div {...up(0.24)} className="mt-9 flex flex-col gap-3 sm:flex-row">
+            <Button asChild size="lg">
+              <Link href="/contacto">
+                Solicitar presupuesto <ArrowRight className="size-4" />
+              </Link>
+            </Button>
+            <Button asChild size="lg" variant="outline">
+              <Link href="/proyectos">Ver proyectos</Link>
+            </Button>
+          </motion.div>
+
+          <motion.div {...up(0.32)} className="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm text-muted-foreground">
+            {trustPoints.map((item) => (
+              <span key={item} className="inline-flex items-center gap-2">
+                <ShieldCheck className="size-4 text-primary" />
+                {item}
+              </span>
+            ))}
+          </motion.div>
         </div>
-        <div className="relative mx-auto w-full max-w-xl">
-          <div className="absolute -inset-8 -z-10 rounded-full bg-primary/10 blur-3xl" />
-          <div className="rounded-[2rem] border border-white/40 bg-card/80 p-3 shadow-2xl shadow-secondary/15 backdrop-blur dark:border-white/10">
-            <div className="rounded-[1.45rem] border border-border bg-secondary p-5 text-white">
-              <div className="mb-12 flex items-center justify-between"><div className="flex gap-1.5"><span className="size-2.5 rounded-full bg-red-400" /><span className="size-2.5 rounded-full bg-amber-400" /><span className="size-2.5 rounded-full bg-emerald-400" /></div><span className="rounded-full bg-white/10 px-3 py-1 text-xs">Tu negocio · online</span></div>
-              <p className="text-sm text-white/55">Experiencia digital</p>
-              <p className="mt-2 max-w-sm text-3xl font-semibold tracking-tight">Una web premium, sin empezar de cero.</p>
-              <div className="mt-10 grid grid-cols-3 gap-3">
-                {['Estrategia', 'Diseño', 'Impacto'].map((item, index) => <div key={item} className="rounded-2xl bg-white/[.07] p-3"><span className="text-xs text-white/45">0{index + 1}</span><p className="mt-5 text-sm font-medium">{item}</p></div>)}
+
+        <motion.div
+          {...up(0.2)}
+          className="relative mx-auto w-full max-w-xl"
+          style={reduceMotion ? undefined : undefined}
+        >
+          <div className="glow-orb absolute -inset-8 -z-10 bg-brand/15" />
+          <div className="animate-float rounded-[2rem] border border-white/40 bg-card/80 p-3 shadow-2xl shadow-black/10 backdrop-blur dark:border-white/10">
+            <div className="bg-grid-ink relative overflow-hidden rounded-[1.45rem] border border-ink-border bg-ink p-6 text-ink-foreground">
+              <div className="mb-10 flex items-center justify-between">
+                <div className="flex gap-1.5">
+                  <span className="size-2.5 rounded-full bg-red-400/80" />
+                  <span className="size-2.5 rounded-full bg-amber-400/80" />
+                  <span className="size-2.5 rounded-full bg-emerald-400/80" />
+                </div>
+                <span className="rounded-full bg-white/10 px-3 py-1 text-xs">Tu negocio · online</span>
+              </div>
+              <p className="text-sm text-ink-muted">Stack de Logixly Studio</p>
+              <p className="mt-2 max-w-sm text-3xl font-semibold tracking-tight">
+                Una web premium, sin empezar de cero.
+              </p>
+              <div className="mt-10 grid grid-cols-1 gap-2.5">
+                {stackChips.map(({ label, icon: Icon }) => (
+                  <div key={label} className="flex items-center gap-3 rounded-2xl bg-white/[.06] p-3">
+                    <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-brand/20 text-brand">
+                      <Icon className="size-4" />
+                    </span>
+                    <p className="text-sm font-medium">{label}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
-          <div className="absolute -bottom-6 -left-4 flex items-center gap-3 rounded-2xl border border-border bg-background p-4 shadow-xl sm:-left-10"><span className="grid size-10 place-items-center rounded-xl bg-emerald-500/10 text-emerald-600"><ShieldCheck /></span><div><p className="text-xs text-muted-foreground">Base profesional</p><p className="text-sm font-semibold">Rápida y segura</p></div></div>
-        </div>
+          <div className="absolute -bottom-6 -left-4 flex items-center gap-3 rounded-2xl border border-border bg-background p-4 shadow-xl sm:-left-10">
+            <span className="grid size-10 place-items-center rounded-xl bg-emerald-500/10 text-emerald-600">
+              <ShieldCheck />
+            </span>
+            <div>
+              <p className="text-xs text-muted-foreground">Base profesional</p>
+              <p className="text-sm font-semibold">Rápida y segura</p>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

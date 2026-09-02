@@ -1,26 +1,78 @@
-export const features = [
-  { title: "Diseño que convierte", description: "Jerarquía visual, mensajes claros y llamadas a la acción pensadas para negocio.", icon: "Sparkles" },
-  { title: "Rendimiento real", description: "Carga rápida, imágenes optimizadas y una base técnica preparada para Core Web Vitals.", icon: "Gauge" },
-  { title: "Escalable y mantenible", description: "Componentes reutilizables y configuración centralizada para crecer sin rehacerlo todo.", icon: "Blocks" },
-  { title: "Preparado para SEO", description: "Metadata, sitemap, robots y marcado semántico incluidos desde el inicio.", icon: "SearchCheck" },
+export const differentiators = [
+  { title: "Soluciones a medida", description: "Cada proyecto parte de tu negocio real, no de una plantilla genérica reciclada.", icon: "Puzzle" },
+  { title: "Tecnología moderna", description: "Next.js, React y TypeScript: la misma base que usan los productos digitales más rápidos.", icon: "Cpu" },
+  { title: "Seguridad desde el diseño", description: "Buenas prácticas de hardening y privacidad integradas desde la arquitectura, no añadidas al final.", icon: "ShieldCheck" },
+  { title: "Automatización inteligente", description: "Conectamos formularios, procesos e IA para reducir el trabajo manual de tu equipo.", icon: "Bot" },
+  { title: "Optimización de procesos", description: "Analizamos cómo trabajas hoy y simplificamos lo que sobra antes de escribir código.", icon: "Gauge" },
+  { title: "Acompañamiento técnico", description: "Seguimos disponibles después del lanzamiento para evolucionar la web contigo.", icon: "LifeBuoy" },
 ] as const;
 
+// Casos de ejemplo conceptuales de la plantilla. Ningún dato (nombre, sector,
+// resultado) corresponde a un cliente real: sustituye por proyectos reales
+// antes de publicar. El campo `placeholder` se usa para marcarlo en la UI.
 export const projects = [
-  { title: "Nexa Clinic", category: "Salud · Web corporativa", result: "+42% solicitudes", gradient: "from-cyan-500/25 via-blue-500/10 to-transparent" },
-  { title: "Arda Kitchen", category: "Restauración · Reservas", result: "2,1× conversión", gradient: "from-orange-500/30 via-amber-500/10 to-transparent" },
-  { title: "Sentinel Ops", category: "Ciberseguridad · SaaS", result: "Lanzamiento en 6 semanas", gradient: "from-violet-500/25 via-indigo-500/10 to-transparent" },
+  {
+    title: "Proyecto ejemplo · Salud",
+    category: "Salud · Web corporativa",
+    objective: "Objetivo ilustrativo: más solicitudes de cita online",
+    tech: ["Next.js", "Tailwind CSS", "Formulario de contacto"],
+    gradient: "from-cyan-500/25 via-blue-500/10 to-transparent",
+    placeholder: true,
+  },
+  {
+    title: "Proyecto ejemplo · Restauración",
+    category: "Restauración · Reservas",
+    objective: "Objetivo ilustrativo: aumentar reservas desde la web",
+    tech: ["Next.js", "Integración de reservas", "SEO local"],
+    gradient: "from-orange-500/30 via-amber-500/10 to-transparent",
+    placeholder: true,
+  },
+  {
+    title: "Proyecto ejemplo · Ciberseguridad",
+    category: "Ciberseguridad · SaaS",
+    objective: "Objetivo ilustrativo: lanzamiento rápido y seguro",
+    tech: ["Next.js", "TypeScript", "Hardening"],
+    gradient: "from-violet-500/25 via-indigo-500/10 to-transparent",
+    placeholder: true,
+  },
 ] as const;
 
+// Testimonios de ejemplo. Sustituye por reseñas reales de clientes: no
+// publiques estos textos como si fueran opiniones verdaderas.
 export const testimonials = [
-  { quote: "Pasamos de una web que solo informaba a una herramienta comercial que genera contactos cada semana.", name: "Laura Martín", role: "Directora, Nexa Clinic" },
-  { quote: "El sistema es muy fácil de adaptar. Pudimos lanzar una nueva línea de servicio sin rediseñar toda la web.", name: "Diego Santos", role: "CEO, Sentinel Ops" },
-  { quote: "Rápidos, ordenados y con una visión de negocio que se nota en cada decisión de diseño.", name: "Marta Ruiz", role: "Fundadora, Arda Kitchen" },
+  {
+    quote: "Espacio reservado para una reseña real de un cliente de servicios profesionales.",
+    name: "Nombre del cliente",
+    role: "Cargo · Empresa (pendiente)",
+    placeholder: true,
+  },
+  {
+    quote: "Espacio reservado para una reseña real de un cliente de e-commerce.",
+    name: "Nombre del cliente",
+    role: "Cargo · Empresa (pendiente)",
+    placeholder: true,
+  },
+  {
+    quote: "Espacio reservado para una reseña real de un cliente de automatización o IA.",
+    name: "Nombre del cliente",
+    role: "Cargo · Empresa (pendiente)",
+    placeholder: true,
+  },
 ] as const;
 
 export const pricing = [
   { name: "Esencial", description: "Para profesionales y negocios locales.", price: "Desde 790 €", featured: false, features: ["Hasta 5 secciones", "Diseño responsive", "SEO esencial", "Formulario de contacto"] },
   { name: "Crecimiento", description: "Para empresas que quieren captar clientes.", price: "Desde 1.490 €", featured: true, features: ["Páginas personalizadas", "CMS o integraciones", "SEO avanzado", "Analítica y conversión"] },
   { name: "A medida", description: "Para productos y procesos complejos.", price: "Presupuesto", featured: false, features: ["Arquitectura personalizada", "Automatizaciones", "Integraciones API", "Soporte evolutivo"] },
+] as const;
+
+export const process = [
+  { step: "01", title: "Descubrimiento", description: "Entendemos tu negocio, tu público y lo que necesita tu web para vender.", icon: "Search" },
+  { step: "02", title: "Estrategia", description: "Definimos alcance, contenidos y prioridades técnicas antes de diseñar nada.", icon: "Compass" },
+  { step: "03", title: "Diseño", description: "Prototipamos la identidad visual y validamos la jerarquía de cada sección.", icon: "PenTool" },
+  { step: "04", title: "Desarrollo", description: "Construimos con Next.js y componentes reutilizables, con revisiones continuas.", icon: "Code2" },
+  { step: "05", title: "Lanzamiento", description: "Desplegamos en Vercel con SEO, analítica y checklist de calidad superados.", icon: "Rocket" },
+  { step: "06", title: "Optimización", description: "Medimos, ajustamos y mejoramos la conversión con datos reales de uso.", icon: "TrendingUp" },
 ] as const;
 
 export const faqs = [
