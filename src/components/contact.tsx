@@ -78,7 +78,7 @@ export function Contact() {
       .filter(Boolean)
       .join("\n");
     return `mailto:${siteConfig.email}?subject=${encodeURIComponent(
-      `Nuevo proyecto: ${form.nombre || "Sin nombre"}`,
+      "Nuevo contacto desde Logixly Studio",
     )}&body=${encodeURIComponent(body)}`;
   }, [form]);
 
@@ -131,13 +131,15 @@ export function Contact() {
                   <Mail className="size-5 text-brand" />
                   {siteConfig.email}
                 </a>
-                <a
-                  href={`tel:${siteConfig.phone.replace(/\s/g, "")}`}
-                  className="flex items-center gap-3 transition hover:text-white"
-                >
-                  <Phone className="size-5 text-brand" />
-                  {siteConfig.phone}
-                </a>
+                {siteConfig.phone && (
+                  <a
+                    href={`tel:${siteConfig.phone.replace(/\s/g, "")}`}
+                    className="flex items-center gap-3 transition hover:text-white"
+                  >
+                    <Phone className="size-5 text-brand" />
+                    {siteConfig.phone}
+                  </a>
+                )}
                 <p className="flex items-center gap-3">
                   <MapPin className="size-5 text-brand" />
                   {siteConfig.address}
@@ -194,7 +196,7 @@ export function Contact() {
                   id="telefono"
                   name="telefono"
                   type="tel"
-                  placeholder="+34 600 000 000"
+                  placeholder="+34 600 123 456"
                   value={form.telefono}
                   onChange={(e) => update("telefono", e.target.value)}
                 />
@@ -254,10 +256,6 @@ export function Contact() {
                 <Button type="submit" size="lg">
                   <MessageCircle className="size-4" /> Cuéntanos tu proyecto
                 </Button>
-                <p className="mt-3 text-xs text-muted-foreground">
-                  Starter demostrativo: este formulario abre tu cliente de correo. Conéctalo con
-                  Resend, Formspree o tu CRM y valida los datos en servidor antes de producción.
-                </p>
                 {status === "success" && (
                   <p role="status" className="mt-3 flex items-center gap-2 text-sm font-medium text-success">
                     <CheckCircle2 className="size-4" /> Hemos abierto tu cliente de correo con el mensaje listo para enviar.

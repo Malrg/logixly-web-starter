@@ -52,16 +52,23 @@ export const viewport: Viewport = {
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
+  // El teléfono solo se incluye en los datos estructurados cuando existe
+  // uno real configurado en company.phone; nunca se publica un valor vacío
+  // o de ejemplo como "telephone" en el JSON-LD.
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     name: siteConfig.commercialName,
     url: siteConfig.domain,
     email: siteConfig.email,
-    telephone: siteConfig.phone,
+    ...(siteConfig.phone ? { telephone: siteConfig.phone } : {}),
     description: siteConfig.seo.description,
     address: { "@type": "PostalAddress", addressLocality: "Madrid", addressCountry: "ES" },
-    sameAs: Object.values(siteConfig.socials),
+    // Solo se publican redes sociales con URL real configurada; sin cuentas
+    // reales todavía, "sameAs" queda vacío en vez de apuntar a URLs genéricas.
+    ...(Object.values(siteConfig.socials).filter(Boolean).length
+      ? { sameAs: Object.values(siteConfig.socials).filter(Boolean) }
+      : {}),
   };
 
   return (

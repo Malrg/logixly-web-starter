@@ -1,30 +1,33 @@
+import { company } from "@/config/company";
+
+// Metadata de sitio y SEO. Los datos de empresa (email, teléfono, WhatsApp,
+// dominio) NO se definen aquí: se leen de `company` (src/config/company.ts),
+// que es la única fuente de verdad para esos valores.
 export const siteConfig = {
-  name: "Logixly Web Starter",
-  commercialName: "Logixly Studio",
+  name: company.companyName,
+  commercialName: company.companyName,
   description:
-    "Diseñamos experiencias web rápidas, elegantes y orientadas a convertir visitas en clientes.",
-  phone: "+34 600 000 000",
-  whatsapp: "+34 600 000 000",
-  whatsappMessage: "Hola, quiero información sobre una página web.",
-  email: "hola@logixlystudio.com",
-  address: "Madrid, España",
-  domain: "https://example.com",
-  socials: {
-    instagram: "https://instagram.com/",
-    linkedin: "https://linkedin.com/",
-    github: "https://github.com/Malrg",
-  },
+    "Diseño web, automatización con IA y ciberseguridad para negocios que quieren vender más y trabajar mejor.",
+  phone: company.phone,
+  whatsapp: company.whatsappNumber,
+  whatsappMessage: "Hola, quiero información sobre un proyecto con Logixly Studio.",
+  email: company.email,
+  address: company.location,
+  domain: company.websiteUrl,
+  socials: company.socials,
   seo: {
-    title: "Logixly Studio | Diseño web y tecnología",
+    title: "Logixly Studio | Estudio tecnológico en Madrid",
     titleTemplate: "%s | Logixly Studio",
     description:
-      "Webs profesionales, rápidas y preparadas para hacer crecer tu negocio.",
+      "Logixly Studio es un estudio tecnológico en Madrid especializado en desarrollo web, e-commerce, automatización con IA y ciberseguridad.",
     keywords: [
+      "desarrollo web Madrid",
       "diseño web",
-      "desarrollo web",
+      "automatización con IA",
+      "ciberseguridad",
+      "e-commerce",
+      "agencia tecnológica",
       "Next.js",
-      "páginas web profesionales",
-      "Madrid",
     ],
     locale: "es_ES",
     ogImage: "/opengraph-image",

@@ -57,9 +57,8 @@ export function Hero() {
           </motion.h1>
 
           <motion.p {...up(0.16)} className="mt-7 max-w-2xl text-pretty text-lg leading-8 text-muted-foreground sm:text-xl">
-            Diseñamos y desarrollamos webs rápidas, automatizamos procesos con IA y protegemos tu
-            operación con ciberseguridad integrada desde el primer commit. Una sola base tecnológica
-            para crecer sin fricción.
+            Unimos diseño, desarrollo, automatización e inteligencia artificial para ayudarte a
+            vender más, trabajar mejor y crecer con una base tecnológica segura.
           </motion.p>
 
           <motion.div {...up(0.24)} className="mt-9 flex flex-col gap-3 sm:flex-row">
@@ -99,9 +98,9 @@ export function Hero() {
                 </div>
                 <span className="rounded-full bg-white/10 px-3 py-1 text-xs">Tu negocio · online</span>
               </div>
-              <p className="text-sm text-ink-muted">Stack de Logixly Studio</p>
+              <p className="text-sm text-ink-muted">Tu proyecto con Logixly Studio</p>
               <p className="mt-2 max-w-sm text-3xl font-semibold tracking-tight">
-                Una web premium, sin empezar de cero.
+                Tecnología que trabaja para tu negocio.
               </p>
               <div className="mt-10 grid grid-cols-1 gap-2.5">
                 {stackChips.map(({ label, icon: Icon }) => (

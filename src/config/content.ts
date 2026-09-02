@@ -1,5 +1,5 @@
 export const differentiators = [
-  { title: "Soluciones a medida", description: "Cada proyecto parte de tu negocio real, no de una plantilla genérica reciclada.", icon: "Puzzle" },
+  { title: "Soluciones a medida", description: "Cada proyecto parte de tu negocio real: tus objetivos, tu sector y tus clientes, no de un molde genérico.", icon: "Puzzle" },
   { title: "Tecnología moderna", description: "Next.js, React y TypeScript: la misma base que usan los productos digitales más rápidos.", icon: "Cpu" },
   { title: "Seguridad desde el diseño", description: "Buenas prácticas de hardening y privacidad integradas desde la arquitectura, no añadidas al final.", icon: "ShieldCheck" },
   { title: "Automatización inteligente", description: "Conectamos formularios, procesos e IA para reducir el trabajo manual de tu equipo.", icon: "Bot" },
@@ -7,12 +7,15 @@ export const differentiators = [
   { title: "Acompañamiento técnico", description: "Seguimos disponibles después del lanzamiento para evolucionar la web contigo.", icon: "LifeBuoy" },
 ] as const;
 
-// Casos de ejemplo conceptuales de la plantilla. Ningún dato (nombre, sector,
-// resultado) corresponde a un cliente real: sustituye por proyectos reales
-// antes de publicar. El campo `placeholder` se usa para marcarlo en la UI.
+// TODO(contenido real): sustituir estos 3 casos por proyectos reales de
+// Logixly Studio en cuanto existan. Ningún dato de aquí abajo (título,
+// sector, objetivo) corresponde a un cliente real: son casos conceptuales
+// que ilustran el tipo de trabajo que hacemos. `placeholder: true` hace que
+// la UI (Portfolio) siempre muestre la etiqueta "Proyecto de ejemplo" — no
+// quitar ese flag hasta sustituir el caso por uno real.
 export const projects = [
   {
-    title: "Proyecto ejemplo · Salud",
+    title: "Web corporativa para clínica de salud",
     category: "Salud · Web corporativa",
     objective: "Objetivo ilustrativo: más solicitudes de cita online",
     tech: ["Next.js", "Tailwind CSS", "Formulario de contacto"],
@@ -20,7 +23,7 @@ export const projects = [
     placeholder: true,
   },
   {
-    title: "Proyecto ejemplo · Restauración",
+    title: "Sistema de reservas para restaurante",
     category: "Restauración · Reservas",
     objective: "Objetivo ilustrativo: aumentar reservas desde la web",
     tech: ["Next.js", "Integración de reservas", "SEO local"],
@@ -28,7 +31,7 @@ export const projects = [
     placeholder: true,
   },
   {
-    title: "Proyecto ejemplo · Ciberseguridad",
+    title: "Lanzamiento seguro de SaaS de ciberseguridad",
     category: "Ciberseguridad · SaaS",
     objective: "Objetivo ilustrativo: lanzamiento rápido y seguro",
     tech: ["Next.js", "TypeScript", "Hardening"],
@@ -77,7 +80,7 @@ export const process = [
 
 export const faqs = [
   { question: "¿Cuánto tarda un proyecto web?", answer: "Una web corporativa suele estar lista entre 3 y 6 semanas. El plazo final depende del alcance, los contenidos y las integraciones." },
-  { question: "¿Puedo cambiar textos, colores y servicios?", answer: "Sí. La plantilla centraliza marca, datos del negocio y servicios en pocos archivos para que la personalización sea rápida y segura." },
+  { question: "¿Puedo pedir cambios después del lanzamiento?", answer: "Sí. Cada proyecto incluye una fase de ajustes tras el lanzamiento y, a partir de ahí, podemos seguir colaborando en actualizaciones de contenido, diseño o nuevas funcionalidades cuando las necesites." },
   { question: "¿La web incluye SEO?", answer: "Incluye una base SEO técnica completa: metadata, Open Graph, sitemap, robots, estructura semántica y buenas prácticas de rendimiento." },
-  { question: "¿Está preparada para Vercel?", answer: "Sí. El proyecto puede conectarse a Vercel directamente desde GitHub y utiliza la configuración recomendada para Next.js." },
+  { question: "¿Dónde se aloja mi web?", answer: "Desplegamos sobre infraestructura moderna (Vercel), lo que da tiempos de carga rápidos y alta disponibilidad sin que tengas que gestionar servidores ni mantenimiento técnico." },
 ] as const;

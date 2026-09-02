@@ -14,8 +14,8 @@ export function Services() {
         <Reveal>
           <SectionHeading
             eyebrow="Servicios"
-            title="Una base flexible para cada tipo de negocio"
-            description="Cambia el contenido y la identidad visual; conserva una arquitectura que ya resuelve lo esencial."
+            title="Soluciones digitales adaptadas a tu negocio"
+            description="Diseñamos la tecnología alrededor de tus objetivos: desde tu presencia web hasta automatizaciones, integraciones y seguridad."
           />
         </Reveal>
 

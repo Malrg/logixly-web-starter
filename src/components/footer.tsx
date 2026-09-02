@@ -18,33 +18,39 @@ export function Footer() {
           <Logo className="text-white" />
           <p className="mt-5 max-w-sm text-sm leading-6 text-ink-muted">{siteConfig.description}</p>
           <div className="mt-5 flex gap-2">
-            <a
-              aria-label="Instagram"
-              href={siteConfig.socials.instagram}
-              target="_blank"
-              rel="noreferrer"
-              className="rounded-full bg-white/5 p-2 transition hover:bg-white/10"
-            >
-              <Camera className="size-4" />
-            </a>
-            <a
-              aria-label="LinkedIn"
-              href={siteConfig.socials.linkedin}
-              target="_blank"
-              rel="noreferrer"
-              className="rounded-full bg-white/5 p-2 transition hover:bg-white/10"
-            >
-              <BriefcaseBusiness className="size-4" />
-            </a>
-            <a
-              aria-label="GitHub"
-              href={siteConfig.socials.github}
-              target="_blank"
-              rel="noreferrer"
-              className="rounded-full bg-white/5 p-2 transition hover:bg-white/10"
-            >
-              <Code2 className="size-4" />
-            </a>
+            {siteConfig.socials.instagram && (
+              <a
+                aria-label="Instagram"
+                href={siteConfig.socials.instagram}
+                target="_blank"
+                rel="noreferrer"
+                className="rounded-full bg-white/5 p-2 transition hover:bg-white/10"
+              >
+                <Camera className="size-4" />
+              </a>
+            )}
+            {siteConfig.socials.linkedin && (
+              <a
+                aria-label="LinkedIn"
+                href={siteConfig.socials.linkedin}
+                target="_blank"
+                rel="noreferrer"
+                className="rounded-full bg-white/5 p-2 transition hover:bg-white/10"
+              >
+                <BriefcaseBusiness className="size-4" />
+              </a>
+            )}
+            {siteConfig.socials.github && (
+              <a
+                aria-label="GitHub"
+                href={siteConfig.socials.github}
+                target="_blank"
+                rel="noreferrer"
+                className="rounded-full bg-white/5 p-2 transition hover:bg-white/10"
+              >
+                <Code2 className="size-4" />
+              </a>
+            )}
           </div>
         </div>
 
@@ -76,9 +82,11 @@ export function Footer() {
             <a href={`mailto:${siteConfig.email}`} className="hover:text-white">
               {siteConfig.email}
             </a>
-            <a href={`tel:${siteConfig.phone.replace(/\s/g, "")}`} className="hover:text-white">
-              {siteConfig.phone}
-            </a>
+            {siteConfig.phone && (
+              <a href={`tel:${siteConfig.phone.replace(/\s/g, "")}`} className="hover:text-white">
+                {siteConfig.phone}
+              </a>
+            )}
             <span>{siteConfig.address}</span>
           </div>
         </div>
