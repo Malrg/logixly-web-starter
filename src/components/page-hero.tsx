@@ -1,0 +1,2 @@
+import { SectionHeading } from "@/components/section-heading";
+export function PageHero({ eyebrow, title, description }: { eyebrow: string; title: string; description: string }) { return <section className="relative overflow-hidden border-b border-border bg-muted/40 py-20 sm:py-28"><div className="hero-grid absolute inset-0 opacity-60" /><div className="container-shell relative"><SectionHeading eyebrow={eyebrow} title={title} description={description} /></div></section>; }
