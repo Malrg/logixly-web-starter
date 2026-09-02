@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect, useMemo, useState, type FormEvent } from "react";
-import { AlertCircle, CheckCircle2, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { useEffect, useState, type FormEvent } from "react";
+import Link from "next/link";
+import { AlertCircle, CheckCircle2, Loader2, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { services } from "@/config/services";
+import { BUDGET_OPTIONS, contactSchema, flattenContactErrors, type ContactFormErrors } from "@/lib/contact-schema";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -13,14 +15,6 @@ import { SectionHeading } from "@/components/section-heading";
 import { Reveal } from "@/components/reveal";
 import { cn } from "@/lib/utils";
 
-const budgetOptions = [
-  "Menos de 800 €",
-  "800 € – 1.500 €",
-  "1.500 € – 3.000 €",
-  "Más de 3.000 €",
-  "Aún no lo sé",
-];
-
 type FormState = {
   nombre: string;
   empresa: string;
@@ -29,9 +23,9 @@ type FormState = {
   servicio: string;
   presupuesto: string;
   mensaje: string;
+  // Honeypot anti-spam: campo oculto para personas, ver más abajo en el JSX.
+  sitioWeb: string;
 };
-
-type FormErrors = Partial<Record<keyof FormState, string>>;
 
 const initialState: FormState = {
   nombre: "",
@@ -41,14 +35,18 @@ const initialState: FormState = {
   servicio: "",
   presupuesto: "",
   mensaje: "",
+  sitioWeb: "",
 };
 
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const GENERIC_ERROR_MESSAGE = "No hemos podido enviar el mensaje. Inténtalo de nuevo en unos minutos.";
+
+type Status = "idle" | "loading" | "success" | "error";
 
 export function Contact() {
   const [form, setForm] = useState<FormState>(initialState);
-  const [errors, setErrors] = useState<FormErrors>({});
-  const [status, setStatus] = useState<"idle" | "success">("idle");
+  const [errors, setErrors] = useState<ContactFormErrors>({});
+  const [status, setStatus] = useState<Status>("idle");
+  const [errorMessage, setErrorMessage] = useState(GENERIC_ERROR_MESSAGE);
 
   // Progressive enhancement: preselect el servicio si se llega desde
   // /contacto?servicio=web-corporativa (enlaces de la sección Servicios).
@@ -64,54 +62,55 @@ export function Contact() {
     }
   }, []);
 
-  const mailtoHref = useMemo(() => {
-    const body = [
-      `Nombre: ${form.nombre}`,
-      form.empresa && `Empresa: ${form.empresa}`,
-      `Email: ${form.email}`,
-      form.telefono && `Teléfono: ${form.telefono}`,
-      form.servicio && `Servicio: ${form.servicio}`,
-      form.presupuesto && `Presupuesto: ${form.presupuesto}`,
-      "",
-      form.mensaje,
-    ]
-      .filter(Boolean)
-      .join("\n");
-    return `mailto:${siteConfig.email}?subject=${encodeURIComponent(
-      "Nuevo contacto desde Logixly Studio",
-    )}&body=${encodeURIComponent(body)}`;
-  }, [form]);
-
-  function validate(): boolean {
-    const nextErrors: FormErrors = {};
-    if (!form.nombre.trim()) nextErrors.nombre = "Indica tu nombre.";
-    if (!form.email.trim()) {
-      nextErrors.email = "Indica un email de contacto.";
-    } else if (!EMAIL_REGEX.test(form.email)) {
-      nextErrors.email = "Revisa el formato del email.";
-    }
-    if (!form.mensaje.trim() || form.mensaje.trim().length < 10) {
-      nextErrors.mensaje = "Cuéntanos un poco más sobre tu proyecto (mínimo 10 caracteres).";
-    }
-    setErrors(nextErrors);
-    return Object.keys(nextErrors).length === 0;
-  }
-
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!validate()) return;
+    if (status === "loading") return; // evita doble envío (doble clic, doble Enter)
 
-    // TODO(integración): sustituir por una llamada real, por ejemplo:
-    // await fetch("/api/contacto", { method: "POST", body: JSON.stringify(form) });
-    // Mientras no exista backend, abrimos el cliente de correo con los datos ya
-    // formateados para no perder ninguna solicitud.
-    window.location.href = mailtoHref;
-    setStatus("success");
+    const result = contactSchema.safeParse(form);
+    if (!result.success) {
+      setErrors(flattenContactErrors(result.error));
+      return;
+    }
+
+    setErrors({});
+    setStatus("loading");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(result.data),
+      });
+      const payload: unknown = await response.json().catch(() => null);
+      const ok =
+        response.ok &&
+        typeof payload === "object" &&
+        payload !== null &&
+        (payload as { ok?: unknown }).ok === true;
+
+      if (!ok) {
+        const message =
+          payload && typeof payload === "object" && typeof (payload as { message?: unknown }).message === "string"
+            ? (payload as { message: string }).message
+            : GENERIC_ERROR_MESSAGE;
+        setErrorMessage(message);
+        setStatus("error");
+        return;
+      }
+
+      setStatus("success");
+      setForm(initialState);
+    } catch {
+      setErrorMessage(GENERIC_ERROR_MESSAGE);
+      setStatus("error");
+    }
   }
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((prev) => ({ ...prev, [key]: value }));
     if (errors[key]) setErrors((prev) => ({ ...prev, [key]: undefined }));
+    // Al volver a escribir, ocultamos el aviso de éxito/error anterior.
+    if (status !== "loading" && status !== "idle") setStatus("idle");
   }
 
   return (
@@ -148,6 +147,23 @@ export function Contact() {
             </div>
 
             <form noValidate onSubmit={handleSubmit} className="grid gap-5 p-8 sm:grid-cols-2 sm:p-12">
+              {/* Honeypot anti-spam: invisible y fuera del orden de tabulación para
+                  personas (con lector de pantalla o sin él); los bots de spam más
+                  básicos suelen rellenar cualquier campo que encuentren. Si llega
+                  con contenido, el servidor descarta el envío silenciosamente. */}
+              <div className="hidden" aria-hidden="true">
+                <label htmlFor="sitioWeb">Deja este campo vacío</label>
+                <input
+                  type="text"
+                  id="sitioWeb"
+                  name="sitioWeb"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={form.sitioWeb}
+                  onChange={(e) => update("sitioWeb", e.target.value)}
+                />
+              </div>
+
               <div className="grid gap-2 text-sm font-medium sm:col-span-1">
                 <Label htmlFor="nombre">Nombre</Label>
                 <Input
@@ -199,7 +215,10 @@ export function Contact() {
                   placeholder="+34 600 123 456"
                   value={form.telefono}
                   onChange={(e) => update("telefono", e.target.value)}
+                  aria-invalid={Boolean(errors.telefono)}
+                  aria-describedby={errors.telefono ? "telefono-error" : undefined}
                 />
+                {errors.telefono && <FieldError id="telefono-error">{errors.telefono}</FieldError>}
               </div>
 
               <div className="grid gap-2 text-sm font-medium sm:col-span-1">
@@ -210,6 +229,9 @@ export function Contact() {
                   placeholder="Selecciona un servicio"
                   value={form.servicio}
                   onChange={(e) => update("servicio", e.target.value)}
+                  aria-invalid={Boolean(errors.servicio)}
+                  aria-describedby={errors.servicio ? "servicio-error" : undefined}
+                  required
                 >
                   {services.map((service) => (
                     <option key={service.slug} value={service.slug}>
@@ -218,6 +240,7 @@ export function Contact() {
                   ))}
                   <option value="otro">Otro / no lo sé todavía</option>
                 </Select>
+                {errors.servicio && <FieldError id="servicio-error">{errors.servicio}</FieldError>}
               </div>
 
               <div className="grid gap-2 text-sm font-medium sm:col-span-1">
@@ -228,13 +251,16 @@ export function Contact() {
                   placeholder="Selecciona un rango"
                   value={form.presupuesto}
                   onChange={(e) => update("presupuesto", e.target.value)}
+                  aria-invalid={Boolean(errors.presupuesto)}
+                  aria-describedby={errors.presupuesto ? "presupuesto-error" : undefined}
                 >
-                  {budgetOptions.map((option) => (
+                  {BUDGET_OPTIONS.map((option) => (
                     <option key={option} value={option}>
                       {option}
                     </option>
                   ))}
                 </Select>
+                {errors.presupuesto && <FieldError id="presupuesto-error">{errors.presupuesto}</FieldError>}
               </div>
 
               <div className="grid gap-2 text-sm font-medium sm:col-span-2">
@@ -253,12 +279,36 @@ export function Contact() {
               </div>
 
               <div className="sm:col-span-2">
-                <Button type="submit" size="lg">
-                  <MessageCircle className="size-4" /> Cuéntanos tu proyecto
+                <Button type="submit" size="lg" disabled={status === "loading"}>
+                  {status === "loading" ? (
+                    <>
+                      <Loader2 className="size-4 animate-spin" /> Enviando...
+                    </>
+                  ) : (
+                    <>
+                      <MessageCircle className="size-4" /> Cuéntanos tu proyecto
+                    </>
+                  )}
                 </Button>
+
+                <p className="mt-3 text-xs leading-5 text-muted-foreground">
+                  Al enviar este formulario aceptas que utilicemos tus datos únicamente para responder a tu
+                  solicitud. Consulta nuestra{" "}
+                  <Link href="/privacidad" className="underline underline-offset-2 hover:text-foreground">
+                    política de privacidad
+                  </Link>
+                  .
+                </p>
+
                 {status === "success" && (
                   <p role="status" className="mt-3 flex items-center gap-2 text-sm font-medium text-success">
-                    <CheckCircle2 className="size-4" /> Hemos abierto tu cliente de correo con el mensaje listo para enviar.
+                    <CheckCircle2 className="size-4" /> ¡Mensaje enviado! Hemos recibido tu solicitud. Te
+                    contactaremos lo antes posible.
+                  </p>
+                )}
+                {status === "error" && (
+                  <p role="alert" className="mt-3 flex items-center gap-2 text-sm font-medium text-danger">
+                    <AlertCircle className="size-4" /> {errorMessage}
                   </p>
                 )}
               </div>
