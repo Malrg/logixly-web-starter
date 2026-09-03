@@ -11,9 +11,9 @@
  *   teléfono ni un WhatsApp real todavía. Mientras estén vacíos, la web
  *   no muestra ni el teléfono ni el botón flotante de WhatsApp. En cuanto
  *   haya un número real, basta con rellenarlos aquí.
- * - `websiteUrl` apunta hoy al dominio temporal de Vercel. Cuando exista
- *   el dominio definitivo (p. ej. logixlystudio.com), se sustituye aquí y
- *   metadata/canonical/Open Graph/sitemap/robots lo recogen automáticamente.
+ * - `websiteUrl` es el dominio definitivo y canónico del sitio. Un cambio
+ *   aquí se propaga automáticamente a metadata/canonical/Open Graph/
+ *   sitemap/robots/JSON-LD sin tocar ningún otro archivo.
  * - `email` usa hoy la cuenta de Gmail indicada. El día que exista un
  *   correo con dominio propio (p. ej. hola@logixlystudio.com) también
  *   basta con cambiarlo aquí.
@@ -52,7 +52,7 @@ export const company: Company = {
   location: "Madrid, España",
   phone: "",
   whatsappNumber: "",
-  websiteUrl: "https://logixly-web-starter.vercel.app",
+  websiteUrl: "https://logixlystudio.com",
   socials: {
     instagram: "",
     linkedin: "",
