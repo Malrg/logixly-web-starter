@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Bot, Lock, ShieldCheck, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 
 const trustPoints = [
   "Entregas en semanas, no meses",
@@ -88,7 +89,7 @@ export function Hero() {
           style={reduceMotion ? undefined : undefined}
         >
           <div className="glow-orb absolute -inset-8 -z-10 bg-brand/15" />
-          <div className="animate-float relative rounded-[2rem] border border-white/40 bg-card/80 p-3 shadow-2xl shadow-black/10 backdrop-blur dark:border-white/10">
+          <div className="animate-float rounded-[2rem] border border-white/40 bg-card/80 p-3 shadow-2xl shadow-black/10 backdrop-blur dark:border-white/10">
             <div className="bg-grid-ink relative overflow-hidden rounded-[1.45rem] border border-ink-border bg-ink p-6 text-ink-foreground">
               <div className="mb-10 flex items-center justify-between gap-2">
                 <div className="flex shrink-0 gap-1.5">
@@ -114,21 +115,23 @@ export function Hero() {
                   </div>
                 ))}
               </div>
-            </div>
 
-            {/* Insignia flotante: es hija del propio panel (.animate-float), no de
-                su contenedor, para que se mueva junto con la animación en vez de
-                quedarse fija mientras el panel sube y baja (eso era lo que se veía
-                "atravesado"/desalineado). z-10 la mantiene siempre por delante del
-                panel; el offset negativo se reduce en móvil para que no invada el
-                padding del contenedor en pantallas estrechas. */}
-            <div className="absolute -bottom-5 left-3 z-10 flex items-center gap-3 rounded-2xl border border-border bg-background p-4 shadow-xl sm:-bottom-6 sm:-left-8">
-              <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-emerald-500/10 text-emerald-600">
-                <ShieldCheck />
-              </span>
-              <div>
-                <p className="text-xs text-muted-foreground">Base profesional</p>
-                <p className="text-sm font-semibold">Rápida y segura</p>
+              {/* Estado de confianza: vive dentro del flujo normal del panel, no
+                  como insignia flotante con offsets negativos. Así se mueve con
+                  el panel en la animación float sin ningún cálculo extra (es
+                  literalmente parte del mismo elemento transformado), nunca se
+                  recorta ni se sale del contenedor, y no compite en jerarquía con
+                  los chips de arriba: el Separator marca que es una categoría de
+                  información distinta (estado/confianza, no una feature). */}
+              <Separator className="mt-6 bg-ink-border" />
+              <div className="mt-5 flex items-center gap-3 rounded-2xl border border-emerald-400/15 bg-emerald-400/[.06] p-3.5 shadow-[0_8px_24px_-16px_rgba(52,211,153,0.45)]">
+                <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-emerald-400/15 text-emerald-400">
+                  <ShieldCheck className="size-5" />
+                </span>
+                <div>
+                  <p className="text-xs text-ink-muted">Base profesional</p>
+                  <p className="text-sm font-semibold text-ink-foreground">Rápida y segura</p>
+                </div>
               </div>
             </div>
           </div>
