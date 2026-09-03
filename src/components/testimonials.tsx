@@ -12,7 +12,7 @@ export function Testimonials() {
           <SectionHeading
             eyebrow="Confianza"
             title="Buenas experiencias, mejores relaciones"
-            description="Estos testimonios son placeholders de la plantilla: sustitúyelos por reseñas reales antes de publicar."
+            description="Así describen nuestros clientes el trabajo conjunto: claridad desde el primer contacto y un resultado a la altura del negocio que representan."
             align="center"
           />
         </Reveal>
@@ -23,7 +23,7 @@ export function Testimonials() {
               <figure className="relative flex h-full flex-col rounded-3xl border border-dashed border-border bg-background p-7">
                 {testimonial.placeholder && (
                   <Badge variant="outline" className="absolute right-5 top-5">
-                    Placeholder
+                    Reseña ilustrativa
                   </Badge>
                 )}
                 <Quote className="size-8 text-primary/40" />
@@ -33,11 +33,18 @@ export function Testimonials() {
                 <figcaption className="mt-8 border-t border-border pt-5">
                   <p className="font-semibold">{testimonial.name}</p>
                   <p className="mt-1 text-sm text-muted-foreground">{testimonial.role}</p>
+                  {testimonial.placeholder && (
+                    <p className="mt-2 text-xs text-muted-foreground/70">Cliente ficticio · ejemplo ilustrativo</p>
+                  )}
                 </figcaption>
               </figure>
             </Reveal>
           ))}
         </div>
+
+        <p className="mt-8 text-center text-xs text-muted-foreground/70">
+          Testimonios de ejemplo usados con fines ilustrativos hasta incorporar reseñas reales de clientes.
+        </p>
       </div>
     </section>
   );

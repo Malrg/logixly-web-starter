@@ -5,6 +5,7 @@ import { SectionHeading } from "@/components/section-heading";
 import { Reveal } from "@/components/reveal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { ProjectPreview } from "@/components/portfolio-previews";
 
 export function Portfolio({ limit }: { limit?: number }) {
   const visibleProjects = typeof limit === "number" ? projects.slice(0, limit) : projects;
@@ -35,16 +36,8 @@ export function Portfolio({ limit }: { limit?: number }) {
                       Proyecto de ejemplo
                     </Badge>
                   )}
-                  <div className="absolute inset-7 rounded-2xl border border-white/20 bg-ink p-5 text-ink-foreground shadow-2xl transition duration-500 group-hover:-translate-y-2 group-hover:rotate-1">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs text-ink-muted">0{index + 1}</span>
-                      <ArrowUpRight className="size-5" />
-                    </div>
-                    <div className="absolute bottom-5 left-5 right-5">
-                      <div className="mb-3 h-2 w-14 rounded-full bg-brand" />
-                      <div className="h-2 w-2/3 rounded-full bg-white/20" />
-                      <div className="mt-2 h-2 w-1/2 rounded-full bg-white/10" />
-                    </div>
+                  <div className="absolute inset-7 overflow-hidden rounded-2xl border border-white/20 bg-ink p-4 text-ink-foreground shadow-2xl transition duration-500 group-hover:-translate-y-2 group-hover:rotate-1">
+                    <ProjectPreview variant={project.preview} />
                   </div>
                 </div>
                 <div className="p-6">

@@ -12,53 +12,63 @@ export const differentiators = [
 // sector, objetivo) corresponde a un cliente real: son casos conceptuales
 // que ilustran el tipo de trabajo que hacemos. `placeholder: true` hace que
 // la UI (Portfolio) siempre muestre la etiqueta "Proyecto de ejemplo" — no
-// quitar ese flag hasta sustituir el caso por uno real.
+// quitar ese flag hasta sustituir el caso por uno real. `preview` selecciona
+// la mini-interfaz ficticia (solo HTML/CSS, sin imágenes) que ilustra la
+// tarjeta — ver src/components/portfolio-previews.tsx.
 export const projects = [
   {
     title: "Web corporativa para clínica de salud",
     category: "Salud · Web corporativa",
-    objective: "Objetivo ilustrativo: más solicitudes de cita online",
+    objective: "Más solicitudes de cita online",
     tech: ["Next.js", "Tailwind CSS", "Formulario de contacto"],
     gradient: "from-cyan-500/25 via-blue-500/10 to-transparent",
+    preview: "clinic",
     placeholder: true,
   },
   {
     title: "Sistema de reservas para restaurante",
     category: "Restauración · Reservas",
-    objective: "Objetivo ilustrativo: aumentar reservas desde la web",
+    objective: "Aumentar reservas desde la web",
     tech: ["Next.js", "Integración de reservas", "SEO local"],
     gradient: "from-orange-500/30 via-amber-500/10 to-transparent",
+    preview: "restaurant",
     placeholder: true,
   },
   {
     title: "Lanzamiento seguro de SaaS de ciberseguridad",
     category: "Ciberseguridad · SaaS",
-    objective: "Objetivo ilustrativo: lanzamiento rápido y seguro",
+    objective: "Lanzamiento rápido y seguro",
     tech: ["Next.js", "TypeScript", "Hardening"],
     gradient: "from-violet-500/25 via-indigo-500/10 to-transparent",
+    preview: "saas",
     placeholder: true,
   },
 ] as const;
 
-// Testimonios de ejemplo. Sustituye por reseñas reales de clientes: no
-// publiques estos textos como si fueran opiniones verdaderas.
+// Testimonios ilustrativos (no son reseñas reales de clientes). `placeholder:
+// true` hace que la UI (Testimonials) siempre muestre la etiqueta "Reseña
+// ilustrativa" y la nota de aviso — no quitar ese flag hasta sustituir cada
+// caso por una reseña real.
 export const testimonials = [
   {
-    quote: "Espacio reservado para una reseña real de un cliente de servicios profesionales.",
-    name: "Nombre del cliente",
-    role: "Cargo · Empresa (pendiente)",
+    quote:
+      "Necesitábamos una web profesional que transmitiera confianza desde el primer momento. El resultado fue claro, moderno y muy fácil de presentar a nuestros clientes.",
+    name: "Laura Martínez",
+    role: "Directora · Clínica Nova Salud",
     placeholder: true,
   },
   {
-    quote: "Espacio reservado para una reseña real de un cliente de e-commerce.",
-    name: "Nombre del cliente",
-    role: "Cargo · Empresa (pendiente)",
+    quote:
+      "La nueva experiencia de reservas nos ayudó a ordenar mejor la atención y a dar una imagen mucho más profesional del restaurante. El proceso fue claro y ágil.",
+    name: "Carlos Romero",
+    role: "Gerente · Restaurante Brasa 21",
     placeholder: true,
   },
   {
-    quote: "Espacio reservado para una reseña real de un cliente de automatización o IA.",
-    name: "Nombre del cliente",
-    role: "Cargo · Empresa (pendiente)",
+    quote:
+      "Buscábamos una base sólida para lanzar un producto digital con una imagen más técnica y segura. La propuesta consiguió equilibrio entre diseño, claridad y credibilidad.",
+    name: "Andrea Gil",
+    role: "Co-founder · SecureOps Cloud",
     placeholder: true,
   },
 ] as const;

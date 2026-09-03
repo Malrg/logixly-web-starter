@@ -88,15 +88,17 @@ export function Hero() {
           style={reduceMotion ? undefined : undefined}
         >
           <div className="glow-orb absolute -inset-8 -z-10 bg-brand/15" />
-          <div className="animate-float rounded-[2rem] border border-white/40 bg-card/80 p-3 shadow-2xl shadow-black/10 backdrop-blur dark:border-white/10">
+          <div className="animate-float relative rounded-[2rem] border border-white/40 bg-card/80 p-3 shadow-2xl shadow-black/10 backdrop-blur dark:border-white/10">
             <div className="bg-grid-ink relative overflow-hidden rounded-[1.45rem] border border-ink-border bg-ink p-6 text-ink-foreground">
-              <div className="mb-10 flex items-center justify-between">
-                <div className="flex gap-1.5">
+              <div className="mb-10 flex items-center justify-between gap-2">
+                <div className="flex shrink-0 gap-1.5">
                   <span className="size-2.5 rounded-full bg-red-400/80" />
                   <span className="size-2.5 rounded-full bg-amber-400/80" />
                   <span className="size-2.5 rounded-full bg-emerald-400/80" />
                 </div>
-                <span className="rounded-full bg-white/10 px-3 py-1 text-xs">Tu negocio · online</span>
+                <span className="shrink-0 whitespace-nowrap rounded-full bg-white/10 px-3 py-1 text-xs">
+                  Tu negocio · online
+                </span>
               </div>
               <p className="text-sm text-ink-muted">Tu proyecto con Logixly Studio</p>
               <p className="mt-2 max-w-sm text-3xl font-semibold tracking-tight">
@@ -113,14 +115,21 @@ export function Hero() {
                 ))}
               </div>
             </div>
-          </div>
-          <div className="absolute -bottom-6 -left-4 flex items-center gap-3 rounded-2xl border border-border bg-background p-4 shadow-xl sm:-left-10">
-            <span className="grid size-10 place-items-center rounded-xl bg-emerald-500/10 text-emerald-600">
-              <ShieldCheck />
-            </span>
-            <div>
-              <p className="text-xs text-muted-foreground">Base profesional</p>
-              <p className="text-sm font-semibold">Rápida y segura</p>
+
+            {/* Insignia flotante: es hija del propio panel (.animate-float), no de
+                su contenedor, para que se mueva junto con la animación en vez de
+                quedarse fija mientras el panel sube y baja (eso era lo que se veía
+                "atravesado"/desalineado). z-10 la mantiene siempre por delante del
+                panel; el offset negativo se reduce en móvil para que no invada el
+                padding del contenedor en pantallas estrechas. */}
+            <div className="absolute -bottom-5 left-3 z-10 flex items-center gap-3 rounded-2xl border border-border bg-background p-4 shadow-xl sm:-bottom-6 sm:-left-8">
+              <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-emerald-500/10 text-emerald-600">
+                <ShieldCheck />
+              </span>
+              <div>
+                <p className="text-xs text-muted-foreground">Base profesional</p>
+                <p className="text-sm font-semibold">Rápida y segura</p>
+              </div>
             </div>
           </div>
         </motion.div>
