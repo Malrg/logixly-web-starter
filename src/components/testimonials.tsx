@@ -3,6 +3,7 @@ import { testimonials } from "@/config/content";
 import { SectionHeading } from "@/components/section-heading";
 import { Reveal } from "@/components/reveal";
 import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 
 export function Testimonials() {
   return (
@@ -30,7 +31,8 @@ export function Testimonials() {
                 <blockquote className="mt-8 flex-1 text-lg leading-8 text-muted-foreground italic">
                   “{testimonial.quote}”
                 </blockquote>
-                <figcaption className="mt-8 border-t border-border pt-5">
+                <Separator className="mt-8" />
+                <figcaption className="mt-5">
                   <p className="font-semibold">{testimonial.name}</p>
                   <p className="mt-1 text-sm text-muted-foreground">{testimonial.role}</p>
                   {testimonial.placeholder && (

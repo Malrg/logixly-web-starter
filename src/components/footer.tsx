@@ -3,6 +3,7 @@ import { BriefcaseBusiness, Camera, Code2 } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { navigation, siteConfig } from "@/config/site";
 import { services } from "@/config/services";
+import { Separator } from "@/components/ui/separator";
 
 const legalLinks = [
   { label: "Aviso legal", href: "/legal" },
@@ -92,7 +93,8 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-ink-border">
+      <Separator className="bg-ink-border" />
+      <div>
         <div className="container-shell flex flex-col gap-3 py-6 text-xs text-ink-muted sm:flex-row sm:items-center sm:justify-between">
           <p>
             © {new Date().getFullYear()} {siteConfig.commercialName}. Todos los derechos reservados.

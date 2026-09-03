@@ -153,6 +153,7 @@ export function Contact() {
                   id="nombre"
                   name="nombre"
                   placeholder="Tu nombre"
+                  autoComplete="name"
                   value={form.nombre}
                   onChange={(e) => update("nombre", e.target.value)}
                   aria-invalid={Boolean(errors.nombre)}
@@ -168,6 +169,7 @@ export function Contact() {
                   id="empresa"
                   name="empresa"
                   placeholder="Nombre de tu negocio (opcional)"
+                  autoComplete="organization"
                   value={form.empresa}
                   onChange={(e) => update("empresa", e.target.value)}
                 />
@@ -180,6 +182,7 @@ export function Contact() {
                   name="email"
                   type="email"
                   placeholder="tu@email.com"
+                  autoComplete="email"
                   value={form.email}
                   onChange={(e) => update("email", e.target.value)}
                   aria-invalid={Boolean(errors.email)}
@@ -196,6 +199,7 @@ export function Contact() {
                   name="telefono"
                   type="tel"
                   placeholder="+34 600 123 456"
+                  autoComplete="tel"
                   value={form.telefono}
                   onChange={(e) => update("telefono", e.target.value)}
                   aria-invalid={Boolean(errors.telefono)}

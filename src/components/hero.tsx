@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowRight, Bot, Lock, ShieldCheck, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -19,15 +19,15 @@ const stackChips = [
 ];
 
 export function Hero() {
-  const reduceMotion = useReducedMotion();
-  const up = (delay: number) =>
-    reduceMotion
-      ? {}
-      : {
-          initial: { opacity: 0, y: 22 },
-          animate: { opacity: 1, y: 0 },
-          transition: { duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] as const },
-        };
+  // El Hero es siempre lo primero que se ve al cargar la página (nunca está
+  // "fuera de pantalla"), así que no aplicamos una animación de aparición:
+  // `initial={false}` le indica a Framer Motion que no hay ningún estado
+  // oculto previo, tanto en el HTML servido por el servidor como en la
+  // primera pintura en cliente. El contenido es visible de inmediato sin
+  // depender de que React hidrate. Los `glow-orb`/`animate-float` de abajo
+  // son animaciones CSS puras y ya respetan `prefers-reduced-motion` vía la
+  // media query global en globals.css.
+  const up = () => ({ initial: false as const });
 
   return (
     <section className="relative overflow-hidden border-b border-border/60">
@@ -45,24 +45,24 @@ export function Hero() {
 
       <div className="container-shell grid min-h-[82vh] items-center gap-14 py-20 lg:grid-cols-[1.08fr_.92fr] lg:py-24">
         <div>
-          <motion.div {...up(0)} className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/8 px-3 py-1.5 text-sm font-medium text-primary">
+          <motion.div {...up()} className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/8 px-3 py-1.5 text-sm font-medium text-primary">
             <Sparkles className="size-4" /> Diseño, tecnología y crecimiento
           </motion.div>
 
           <motion.h1
-            {...up(0.08)}
+            {...up()}
             className="max-w-4xl text-balance text-5xl font-semibold leading-[1.03] tracking-[-0.04em] sm:text-6xl lg:text-[4.75rem]"
           >
             Transformamos negocios con{" "}
             <span className="text-gradient">tecnología</span> que se nota desde el primer clic.
           </motion.h1>
 
-          <motion.p {...up(0.16)} className="mt-7 max-w-2xl text-pretty text-lg leading-8 text-muted-foreground sm:text-xl">
+          <motion.p {...up()} className="mt-7 max-w-2xl text-pretty text-lg leading-8 text-muted-foreground sm:text-xl">
             Unimos diseño, desarrollo, automatización e inteligencia artificial para ayudarte a
             vender más, trabajar mejor y crecer con una base tecnológica segura.
           </motion.p>
 
-          <motion.div {...up(0.24)} className="mt-9 flex flex-col gap-3 sm:flex-row">
+          <motion.div {...up()} className="mt-9 flex flex-col gap-3 sm:flex-row">
             <Button asChild size="lg">
               <Link href="/contacto">
                 Solicitar presupuesto <ArrowRight className="size-4" />
@@ -73,7 +73,7 @@ export function Hero() {
             </Button>
           </motion.div>
 
-          <motion.div {...up(0.32)} className="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm text-muted-foreground">
+          <motion.div {...up()} className="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm text-muted-foreground">
             {trustPoints.map((item) => (
               <span key={item} className="inline-flex items-center gap-2">
                 <ShieldCheck className="size-4 text-primary" />
@@ -83,11 +83,7 @@ export function Hero() {
           </motion.div>
         </div>
 
-        <motion.div
-          {...up(0.2)}
-          className="relative mx-auto w-full max-w-xl"
-          style={reduceMotion ? undefined : undefined}
-        >
+        <motion.div {...up()} className="relative mx-auto w-full max-w-xl">
           <div className="glow-orb absolute -inset-8 -z-10 bg-brand/15" />
           <div className="animate-float rounded-[2rem] border border-white/40 bg-card/80 p-3 shadow-2xl shadow-black/10 backdrop-blur dark:border-white/10">
             <div className="bg-grid-ink relative overflow-hidden rounded-[1.45rem] border border-ink-border bg-ink p-6 text-ink-foreground">

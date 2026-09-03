@@ -3,6 +3,7 @@ import { Check } from "lucide-react";
 import { pricing } from "@/config/content";
 import { SectionHeading } from "@/components/section-heading";
 import { Reveal } from "@/components/reveal";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -29,14 +30,14 @@ export function Pricing() {
                 )}
               >
                 {plan.featured && (
-                  <span className="absolute -top-3 left-7 rounded-full bg-brand px-3 py-1 text-xs font-bold text-brand-foreground">
+                  <Badge className="absolute -top-3 left-7 border-transparent bg-brand font-bold text-brand-foreground">
                     Más elegido
-                  </span>
+                  </Badge>
                 )}
                 <h3 className="text-xl font-semibold">{plan.name}</h3>
                 <p className="mt-2 min-h-12 text-sm leading-6 text-muted-foreground">{plan.description}</p>
                 <p className="mt-7 text-3xl font-semibold tracking-tight">{plan.price}</p>
-                <ul className="my-8 flex-1 space-y-3">
+                <ul className="my-8 flex flex-1 flex-col gap-3">
                   {plan.features.map((feature) => (
                     <li key={feature} className="flex gap-3 text-sm">
                       <Check className="mt-0.5 size-4 shrink-0 text-primary" />

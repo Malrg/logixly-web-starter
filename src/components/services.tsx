@@ -33,7 +33,7 @@ export function Services() {
                   </CardHeader>
                   <CardContent className="flex flex-1 flex-col">
                     <p className="flex-1 text-sm leading-6 text-muted-foreground">{service.description}</p>
-                    <ul className="mt-5 space-y-2">
+                    <ul className="mt-5 flex flex-col gap-2">
                       {service.highlights.map((highlight) => (
                         <li key={highlight} className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
                           <span className="size-1.5 rounded-full bg-primary" />

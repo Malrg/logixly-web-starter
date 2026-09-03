@@ -31,7 +31,7 @@ export default function AboutPage() {
               componentes visuales. Esto permite avanzar rápido y mantener espacio para decisiones
               únicas.
             </p>
-            <ul className="mt-8 space-y-4">
+            <ul className="mt-8 flex flex-col gap-4">
               {[
                 "Estrategia antes que decoración",
                 "Accesibilidad y rendimiento",
