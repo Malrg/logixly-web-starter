@@ -3,10 +3,14 @@ import { services } from "@/config/services";
 
 /**
  * Fuente única de verdad para las reglas del formulario de contacto.
- * La usan tanto el formulario en cliente (src/components/contact.tsx) como
- * el endpoint en servidor (src/app/api/contact/route.ts), para que ambos
- * lados validen exactamente lo mismo: nunca confiamos solo en la
- * validación del navegador.
+ * La usa el formulario en cliente (src/components/contact.tsx) para validar
+ * antes de enviar el envío a Formspree (src/lib/formspree.ts). El envío en
+ * sí ocurre directamente desde el navegador: no hay endpoint propio en
+ * servidor para este formulario (ver la nota de arquitectura en
+ * formspree.ts), así que esta es la única capa de validación que controla
+ * este proyecto — Formspree aplica además sus propias validaciones de
+ * servidor (campos requeridos y formato de email según la configuración
+ * del formulario en su panel).
  */
 
 // Valores válidos de "Servicio": los slugs reales de src/config/services.ts
@@ -65,10 +69,11 @@ export const contactSchema = z.object({
     .min(10, "Cuéntanos un poco más sobre tu proyecto (mínimo 10 caracteres).")
     .max(4000, "El mensaje es demasiado largo (máximo 4000 caracteres)."),
   // Honeypot: campo invisible para personas, que un bot de spam sí suele
-  // rellenar. Si llega con contenido, el envío se descarta silenciosamente
-  // en el servidor. No se valida su formato, solo se comprueba que llegue
-  // vacío (ver route.ts).
-  sitioWeb: z.string().optional().or(z.literal("")),
+  // rellenar. El nombre "_gotcha" no es arbitrario: es la convención que
+  // reconoce Formspree para descartar el envío en su propio servidor sin
+  // enviar el email (ver src/lib/formspree.ts). No se valida su formato,
+  // solo se comprueba que llegue vacío antes de enviar.
+  _gotcha: z.string().optional().or(z.literal("")),
 });
 
 export type ContactFormValues = z.infer<typeof contactSchema>;

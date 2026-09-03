@@ -6,6 +6,7 @@ import { AlertCircle, CheckCircle2, Loader2, Mail, MapPin, MessageCircle, Phone 
 import { siteConfig } from "@/config/site";
 import { services } from "@/config/services";
 import { BUDGET_OPTIONS, contactSchema, flattenContactErrors, type ContactFormErrors } from "@/lib/contact-schema";
+import { submitToFormspree } from "@/lib/formspree";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -24,7 +25,8 @@ type FormState = {
   presupuesto: string;
   mensaje: string;
   // Honeypot anti-spam: campo oculto para personas, ver más abajo en el JSX.
-  sitioWeb: string;
+  // El nombre "_gotcha" es la convención que reconoce Formspree.
+  _gotcha: string;
 };
 
 const initialState: FormState = {
@@ -35,7 +37,7 @@ const initialState: FormState = {
   servicio: "",
   presupuesto: "",
   mensaje: "",
-  sitioWeb: "",
+  _gotcha: "",
 };
 
 const GENERIC_ERROR_MESSAGE = "No hemos podido enviar el mensaje. Inténtalo de nuevo en unos minutos.";
@@ -66,44 +68,24 @@ export function Contact() {
     event.preventDefault();
     if (status === "loading") return; // evita doble envío (doble clic, doble Enter)
 
-    const result = contactSchema.safeParse(form);
-    if (!result.success) {
-      setErrors(flattenContactErrors(result.error));
+    const parsed = contactSchema.safeParse(form);
+    if (!parsed.success) {
+      setErrors(flattenContactErrors(parsed.error));
       return;
     }
 
     setErrors({});
     setStatus("loading");
 
-    try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(result.data),
-      });
-      const payload: unknown = await response.json().catch(() => null);
-      const ok =
-        response.ok &&
-        typeof payload === "object" &&
-        payload !== null &&
-        (payload as { ok?: unknown }).ok === true;
-
-      if (!ok) {
-        const message =
-          payload && typeof payload === "object" && typeof (payload as { message?: unknown }).message === "string"
-            ? (payload as { message: string }).message
-            : GENERIC_ERROR_MESSAGE;
-        setErrorMessage(message);
-        setStatus("error");
-        return;
-      }
-
-      setStatus("success");
-      setForm(initialState);
-    } catch {
-      setErrorMessage(GENERIC_ERROR_MESSAGE);
+    const result = await submitToFormspree(parsed.data, window.location.href);
+    if (!result.ok) {
+      setErrorMessage(result.message ?? GENERIC_ERROR_MESSAGE);
       setStatus("error");
+      return;
     }
+
+    setStatus("success");
+    setForm(initialState);
   }
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
@@ -149,18 +131,19 @@ export function Contact() {
             <form noValidate onSubmit={handleSubmit} className="grid gap-5 p-8 sm:grid-cols-2 sm:p-12">
               {/* Honeypot anti-spam: invisible y fuera del orden de tabulación para
                   personas (con lector de pantalla o sin él); los bots de spam más
-                  básicos suelen rellenar cualquier campo que encuentren. Si llega
-                  con contenido, el servidor descarta el envío silenciosamente. */}
+                  básicos suelen rellenar cualquier campo que encuentren. El nombre
+                  "_gotcha" es la convención que reconoce Formspree para descartar
+                  el envío en su servidor sin enviar el email. */}
               <div className="hidden" aria-hidden="true">
-                <label htmlFor="sitioWeb">Deja este campo vacío</label>
+                <label htmlFor="_gotcha">Deja este campo vacío</label>
                 <input
                   type="text"
-                  id="sitioWeb"
-                  name="sitioWeb"
+                  id="_gotcha"
+                  name="_gotcha"
                   tabIndex={-1}
                   autoComplete="off"
-                  value={form.sitioWeb}
-                  onChange={(e) => update("sitioWeb", e.target.value)}
+                  value={form._gotcha}
+                  onChange={(e) => update("_gotcha", e.target.value)}
                 />
               </div>
 

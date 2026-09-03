@@ -104,7 +104,7 @@ La portada se compone en `src/app/page.tsx`. Para adaptar el alcance, añade, re
 
 ### 6. Conecta el formulario
 
-El formulario incluido abre el cliente de correo como demostración. Para producción, conecta `src/components/contact.tsx` con un proveedor como Resend, Formspree, HubSpot o el CRM del cliente y valida los datos en servidor.
+El formulario de contacto envía los envíos directamente a [Formspree](https://formspree.io) desde el navegador (`src/lib/formspree.ts`), sin backend propio. Para activarlo, copia el Form ID de tu cuenta de Formspree en la variable `NEXT_PUBLIC_FORMSPREE_FORM_ID` (ver `.env.example`) tanto en `.env.local` como en las variables de entorno de Vercel.
 
 ## Estructura
 
