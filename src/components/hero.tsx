@@ -44,6 +44,7 @@ export function Hero() {
         id="hero"
         variant="surface"
         intensity="medium"
+        edgeFade="left"
         className="ambient-network mask-fade-radial pointer-events-none absolute inset-0 -z-10 h-full w-full opacity-70"
       />
 

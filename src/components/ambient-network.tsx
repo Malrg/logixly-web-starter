@@ -14,6 +14,8 @@
  * rellena ese contenedor.
  */
 
+import { cn } from "@/lib/utils";
+
 type Node = {
   id: number;
   x: number;
@@ -101,6 +103,7 @@ export function AmbientNetwork({
   variant = "surface",
   intensity = "medium",
   className,
+  edgeFade,
 }: {
   /** Prefijo único para los ids de <filter>; evita colisiones si hay más de una instancia en la página. */
   id: string;
@@ -108,19 +111,30 @@ export function AmbientNetwork({
   /** "low" = detalle casi imperceptible y estático salvo 2 glows lentos. "medium" = intensidad completa. */
   intensity?: "low" | "medium";
   className?: string;
+  /**
+   * Atenúa el efecto hacia un borde (sin tocar nodos, animación ni el resto
+   * de la máscara/opacidad que ya traiga `className`, p. ej. mask-fade-radial):
+   * se aplica en un contenedor anidado aparte para que ambas máscaras se
+   * combinen por superposición normal — cada `mask-image` multiplica su
+   * propio alfa — en vez de pisarse entre sí o depender de mask-composite.
+   * "left" = más tenue empezando por la izquierda, intensidad ya completa
+   * desde aprox. el 60% del ancho hacia la derecha. Pensado para usarse
+   * detrás de una columna de texto en el lado izquierdo.
+   */
+  edgeFade?: "left";
 }) {
   const colors = VARIANTS[variant];
   const nodes = intensity === "low" ? NODES.filter((n) => n.minIntensity === "low") : NODES;
   const edges = intensity === "low" ? EDGES.filter((e) => e.minIntensity === "low") : EDGES;
   const filterId = `${id}-ambient-glow`;
 
-  return (
+  const svg = (
     <svg
       viewBox="0 0 1200 800"
       preserveAspectRatio="xMidYMid slice"
       aria-hidden="true"
       focusable="false"
-      className={className}
+      className={edgeFade ? "h-full w-full" : className}
     >
       <defs>
         <filter id={filterId} x="-60%" y="-60%" width="220%" height="220%">
@@ -161,5 +175,13 @@ export function AmbientNetwork({
         })}
       </g>
     </svg>
+  );
+
+  if (!edgeFade) return svg;
+
+  return (
+    <div className={className}>
+      <div className={cn("h-full w-full", edgeFade === "left" && "mask-fade-left")}>{svg}</div>
+    </div>
   );
 }

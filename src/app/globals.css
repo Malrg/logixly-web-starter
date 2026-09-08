@@ -225,6 +225,22 @@ h1, h2, h3 {
   .mask-fade-radial {
     mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black 45%, transparent 92%);
   }
+  /* Atenúa ~20% (dentro del 15-25% pedido) el lado izquierdo de un fondo
+     decorativo (p. ej. AmbientNetwork con edgeFade="left" en el Hero),
+     recuperando el 100% de opacidad hacia el 60% del ancho para no restar
+     presencia junto al panel derecho. Pensada para anidarse DENTRO de otro
+     elemento que ya tenga su propia mask-image (radial, etc.): al ser un
+     elemento aparte, ambas máscaras multiplican su alfa de forma natural en
+     vez de sustituirse o necesitar mask-composite. */
+  .mask-fade-left {
+    mask-image: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(0, 0, 0, 0.8) 38%,
+      black 60%,
+      black 100%
+    );
+  }
 
   /* Hairline gradient border used for elevated cards ("glass" premium surfaces) */
   .border-glow {
