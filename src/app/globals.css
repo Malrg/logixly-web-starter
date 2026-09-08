@@ -98,6 +98,8 @@
   --animate-fade-out: fade-out 0.2s ease-in forwards;
   --animate-slide-in-right: slide-in-right 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   --animate-slide-out-right: slide-out-right 0.2s ease-in forwards;
+  --animate-network-flow: network-flow 7s linear infinite;
+  --animate-node-glow: node-glow 5s ease-in-out infinite;
 
   @keyframes fade-up {
     from { opacity: 0; transform: translateY(16px); }
@@ -131,6 +133,16 @@
     from { transform: translateX(0); }
     to { transform: translateX(100%); }
   }
+  /* Ambient network: un único "pulso" recorriendo la línea (dash corto,
+     hueco grande) en vez de un bucle en JS o SMIL. */
+  @keyframes network-flow {
+    from { stroke-dashoffset: 0; }
+    to { stroke-dashoffset: -960; }
+  }
+  @keyframes node-glow {
+    0%, 100% { opacity: 0.45; transform: scale(0.92); }
+    50% { opacity: 0.9; transform: scale(1.1); }
+  }
 }
 
 * {
@@ -163,6 +175,13 @@ h1, h2, h3 {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+  /* Refuerzo explícito para el fondo de red neuronal (ambient-network.tsx):
+     además de quedar cubierto por la regla general de arriba, se congela
+     del todo (sin animación) en vez de reproducirse una vez a 0.01ms. La
+     ilustración se queda tal cual, fija, sin desaparecer. */
+  .ambient-network * {
+    animation: none !important;
   }
 }
 
@@ -228,5 +247,12 @@ h1, h2, h3 {
     border-radius: 9999px;
     filter: blur(80px);
     pointer-events: none;
+  }
+
+  /* Centra el scale() de los nodos con glow del ambient-network en su
+     propio centro (fill-box) en vez del origen del viewport SVG. */
+  .svg-fill-box {
+    transform-box: fill-box;
+    transform-origin: center;
   }
 }

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, Bot, Lock, ShieldCheck, Sparkles } from "lucide-react";
+import { AmbientNetwork } from "@/components/ambient-network";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
@@ -30,18 +31,21 @@ export function Hero() {
   const up = () => ({ initial: false as const });
 
   return (
-    <section className="relative overflow-hidden border-b border-border/60">
-      {/* Technical backdrop: grid + glow orbs + drifting lines */}
-      <div className="bg-grid mask-fade-radial pointer-events-none absolute inset-0 -z-20 opacity-[0.55]" />
+    <section className="relative isolate overflow-hidden border-b border-border/60">
+      {/* Fondo técnico: cuadrícula muy sutil + orbes de brillo + red neuronal ambiental.
+          "isolate" fuerza un stacking context propio para esta sección, para
+          que los fondos con z-index negativo se resuelvan de forma local y
+          predecible (ver el comentario más largo en features.tsx sobre por
+          qué esto es obligatorio en secciones con fondo propio opaco). */}
+      <div className="bg-grid mask-fade-radial pointer-events-none absolute inset-0 -z-20 opacity-[0.35]" />
       <div className="glow-orb pointer-events-none absolute -left-32 top-10 -z-10 size-96 bg-brand/20" />
       <div className="glow-orb animate-pulse-slow pointer-events-none absolute right-0 top-40 -z-10 size-80 bg-brand/10" />
-      <svg
-        className="pointer-events-none absolute inset-0 -z-10 hidden h-full w-full opacity-40 lg:block"
-        aria-hidden="true"
-      >
-        <line x1="62%" y1="0" x2="98%" y2="55%" stroke="var(--border)" strokeWidth="1" />
-        <line x1="80%" y1="0" x2="45%" y2="100%" stroke="var(--border)" strokeWidth="1" />
-      </svg>
+      <AmbientNetwork
+        id="hero"
+        variant="surface"
+        intensity="medium"
+        className="ambient-network mask-fade-radial pointer-events-none absolute inset-0 -z-10 h-full w-full opacity-70"
+      />
 
       <div className="container-shell grid min-h-[82vh] items-center gap-14 py-20 lg:grid-cols-[1.08fr_.92fr] lg:py-24">
         <div>
